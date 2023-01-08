@@ -11,10 +11,9 @@ datasource db {
 }
 
 model Contact {
-  idContact Int      @id @default(autoincrement())
+  idContact String   @id
   name      String
   email     String   @unique
-  password  String
   cellphone String   @unique
   createdAt DateTime @default(now())
 }
