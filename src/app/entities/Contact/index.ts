@@ -1,10 +1,11 @@
 import { randomUUID } from 'crypto';
-import { Email } from './Email';
-import { NameContact } from './Name';
+import { Cellphone } from '../Cellphone';
+import { Email } from '../Email';
+import { NameContact } from './name.entity';
 
 export type PropsContact = {
   name: NameContact;
-  cellphone: string;
+  cellphone: Cellphone;
   email: Email;
   createdAt?: Date;
   _id?: string;
@@ -21,7 +22,7 @@ export class Contact {
   public get name(): string {
     return this.props.name.value;
   }
-  public get cellphone(): string {
+  public get cellphone(): Cellphone {
     return this.props.cellphone;
   }
   public get email(): string {

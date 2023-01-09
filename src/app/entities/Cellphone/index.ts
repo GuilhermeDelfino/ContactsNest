@@ -1,5 +1,5 @@
 import { regexToFormatCellphoneMask } from '../../../helpers/regex';
-import { Ddd } from './DddNumber';
+import { Ddd } from '../DddNumber';
 
 export type PropsCellphone = {
   ddd: Ddd;
@@ -10,8 +10,14 @@ export class Cellphone {
   //00000000000
   private cellphoneNumberFormated: string;
   private cellphoneFormated: string;
-  constructor(props: PropsCellphone) {
-    this.formatProps(props);
+  constructor(cellphone: string) {
+    const formated = this.formatCellphoneToJustNumbers(cellphone);
+    const cellphoneNumber = formated.substring(2, formated.length);
+    this.validateCellphoneNumber(cellphoneNumber);
+    this.formatProps({
+      ddd: new Ddd(formated.substring(0, 2)),
+      cellphone: cellphoneNumber,
+    });
   }
 
   private validateCellphoneNumber(
@@ -45,8 +51,6 @@ export class Cellphone {
   }
 
   private formatCellphoneToJustNumbers(cellphoneNumber: string) {
-    return Array.from(cellphoneNumber)
-      .map((v) => v.match(/\d/))
-      .join('');
+    return cellphoneNumber.match(/(\d)/g).join('');
   }
 }

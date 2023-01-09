@@ -1,16 +1,17 @@
 import { Contact, PropsContact } from '.';
-import { Email } from './Email';
-import { NameContact as Name } from './Name';
+import { Cellphone } from '../Cellphone';
+import { Email } from '../Email';
+import { NameContact as Name } from './name.entity';
 
 const fullPropsCorrect: PropsContact = {
-  cellphone: '11972595523',
+  cellphone: new Cellphone('11972595523'),
   createdAt: new Date(),
   email: new Email('guilhermedelfino25@gmail.com'),
   name: new Name('Guilherme Delfino'),
   _id: `new-id-fofo`,
 };
 const fullRequiredPropsCorrect: PropsContact = {
-  cellphone: '11972595523',
+  cellphone: new Cellphone('11972595523'),
   email: new Email('guilhermedelfino25@gmail.com'),
   name: new Name('Guilherme Delfino'),
 };

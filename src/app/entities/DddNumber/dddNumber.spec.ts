@@ -1,5 +1,5 @@
 import { dddsNumbers } from '../../../helpers/ddd';
-import { Ddd } from './DddNumber';
+import { Ddd } from '.';
 
 describe('Ddd Number of Brazil states Tests', () => {
   it('should be able to create a Ddd number', () => {

@@ -1,4 +1,4 @@
-import { Email } from './Email';
+import { Email } from '.';
 
 const minLength = Email.MIN_LENGTH;
 const maxnLength = Email.MAX_LENGTH;

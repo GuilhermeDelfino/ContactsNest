@@ -1,4 +1,4 @@
-import { LengthValidator } from '../../../helpers/validations/LengthValidator/';
+import { LengthValidator } from '../../../helpers/validations/LengthValidator';
 
 export class NameContact {
   static MIN_LENGTH = 4;
