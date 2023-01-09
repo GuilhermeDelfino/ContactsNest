@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Cellphone } from 'src/app/entities/Cellphone';
 import { Contact } from 'src/app/entities/Contact';
-import { NameContact } from 'src/app/entities/Contact/name.entity';
+import { NameContact } from 'src/app/entities/Contact/Name.entity';
 import { Email } from 'src/app/entities/Email';
 import { CreateContact } from 'src/app/useCases/CreateContact';
 import { ContactDTO } from '../dtos/Contact.dto';

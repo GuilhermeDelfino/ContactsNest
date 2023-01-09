@@ -5,7 +5,7 @@ import {
   IsNotEmpty,
   Length,
 } from 'class-validator';
-import { NameContact } from 'src/app/entities/Contact/name.entity';
+import { NameContact } from 'src/app/entities/Contact/Name.entity';
 import { Email } from 'src/app/entities/Email';
 export class ContactDTO {
   @IsNotEmpty()
