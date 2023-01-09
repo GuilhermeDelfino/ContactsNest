@@ -24,6 +24,6 @@ export class Email {
   }
 
   get value(): string {
-    return this.email;
+    return this.email.trim().toUpperCase();
   }
 }

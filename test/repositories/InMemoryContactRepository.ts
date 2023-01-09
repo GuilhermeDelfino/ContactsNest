@@ -1,7 +1,7 @@
 import { Cellphone } from 'src/app/entities/Cellphone';
 import { Contact } from 'src/app/entities/Contact';
 import { Email } from 'src/app/entities/Email';
-import { IRepositoryContact } from 'src/app/repositories/IRepositoryContact';
+import { IRepositoryContact } from 'src/app/repositories/contact.repository';
 
 export class InMemoryContactRepository implements IRepositoryContact {
   virtualContactsBase: Contact[] = [];
@@ -9,13 +9,19 @@ export class InMemoryContactRepository implements IRepositoryContact {
     this.virtualContactsBase.push(contact);
     console.log('User has been inserted');
   }
-  verifyEmailHasAlreadyBeenInserted(email: Email): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  async verifyEmailHasAlreadyBeenInserted(email: Email): Promise<boolean> {
+    this.virtualContactsBase.find((c) => {
+      if (c.email === email.value) return true;
+    });
+    return false;
   }
-  verifyCellphoneHasAlreadyBeenInserted(
+  async verifyCellphoneHasAlreadyBeenInserted(
     cellphone: Cellphone,
   ): Promise<boolean> {
-    throw new Error('Method not implemented.');
+    this.virtualContactsBase.forEach((c) => {
+      if (c.cellphone.value === cellphone.value) return true;
+    });
+    return false;
   }
   listContacts(): Promise<Contact[]> {
     throw new Error('Method not implemented.');

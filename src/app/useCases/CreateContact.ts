@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IRepositoryContact } from 'src/app/repositories/contact.repository';
+import { IRepositoryContact } from '../repositories/contact.repository';
 import { Contact } from '../entities/Contact';
 
 @Injectable()
