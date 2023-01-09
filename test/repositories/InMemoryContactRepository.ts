@@ -6,12 +6,19 @@ import { IRepositoryContact } from 'src/app/repositories/contact.repository';
 export class InMemoryContactRepository implements IRepositoryContact {
   virtualContactsBase: Contact[] = [];
   async saveContact(contact: Contact): Promise<void> {
+    if (await this.verifyCellphoneHasAlreadyBeenInserted(contact.cellphone)) {
+      throw new Error(
+        'Contact Cellphone already has been inserted in database',
+      );
+    }
+    if (await this.verifyEmailHasAlreadyBeenInserted(contact.email)) {
+      throw new Error(`Contact Email already has been inserted in database`);
+    }
     this.virtualContactsBase.push(contact);
-    console.log('User has been inserted');
   }
   async verifyEmailHasAlreadyBeenInserted(email: Email): Promise<boolean> {
     this.virtualContactsBase.find((c) => {
-      if (c.email === email.value) return true;
+      if (c.email.value === email.value) return true;
     });
     return false;
   }

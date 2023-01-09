@@ -1,7 +1,7 @@
 import { Contact, PropsContact } from '.';
 import { Cellphone } from '../Cellphone';
 import { Email } from '../Email';
-import { NameContact as Name } from './name.entity';
+import { NameContact as Name } from './Name.entity';
 
 const fullPropsCorrect: PropsContact = {
   cellphone: new Cellphone('11972595523'),
@@ -24,7 +24,9 @@ describe('Contact Tests', () => {
   it(`should return all attributes`, () => {
     const fullyContact = new Contact(fullPropsCorrect);
     expect(fullyContact.cellphone).toBe(fullPropsCorrect.cellphone);
-    expect(fullyContact.email).toBe(fullPropsCorrect.email.value);
+    expect(fullyContact.email.value).toBe(
+      fullPropsCorrect.email.value.trim().toUpperCase(),
+    );
     expect(fullyContact.name).toBe(fullPropsCorrect.name.value);
     expect(fullyContact.createdAt).toBe(fullPropsCorrect.createdAt);
     expect(fullyContact.id).toBe(fullPropsCorrect._id);

@@ -1,4 +1,4 @@
-import { NameContact } from './name.entity';
+import { NameContact } from './Name.entity';
 
 const minLength = NameContact.MIN_LENGTH;
 const maxnLength = NameContact.MAX_LENGTH;
