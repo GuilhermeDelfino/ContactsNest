@@ -1,7 +1,5 @@
 import { InMemoryContactRepository } from '../../../test/repositories/InMemoryContactRepository';
-import { Cellphone } from '../entities/Cellphone';
 import { Contact } from '../entities/Contact';
-import { NameContact } from '../entities/Contact/Name.entity';
 import { Email } from '../entities/Email';
 import { VerifyEmailHasAlreadyBeenInserted } from './VerifyEmailAlreadyExists';
 

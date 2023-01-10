@@ -31,7 +31,7 @@ export class InMemoryContactRepository implements IRepositoryContact {
   async verifyCellphoneHasAlreadyBeenInserted(
     cellphone: Cellphone,
   ): Promise<boolean> {
-    this.virtualContactsBase.forEach((c) => {
+    this.virtualContactsBase.find((c) => {
       if (c.cellphone === cellphone.value) return true;
     });
     return false;
