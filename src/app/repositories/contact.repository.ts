@@ -1,6 +1,17 @@
 import { Cellphone } from 'src/app/entities/Cellphone';
-import { Contact } from 'src/app/entities/Contact';
+import { Contact, ContactAttributes } from 'src/app/entities/Contact';
 import { Email } from 'src/app/entities/Email';
+
+export class ContactResponse {
+  name: string;
+  cellphone: string;
+  email: string;
+  id: string;
+  createdAt: Date;
+  constructor(props: ContactAttributes) {
+    Object.assign(this, props);
+  }
+}
 
 export abstract class IRepositoryContact {
   abstract saveContact(contact: Contact): Promise<void>;
@@ -9,9 +20,9 @@ export abstract class IRepositoryContact {
   abstract verifyCellphoneHasAlreadyBeenInserted(
     cellphone: Cellphone,
   ): Promise<boolean>;
-  abstract listContacts(): Promise<Contact[]>;
-  abstract findContactByEmail(email: Email): Promise<Contact>;
-  abstract findContactById(id: string): Promise<Contact>;
+  abstract listContacts(): Promise<ContactResponse[]>;
+  abstract findContactByEmail(email: Email): Promise<ContactResponse>;
+  abstract findContactById(id: string): Promise<ContactResponse>;
 
   abstract removeContact(id: string): Promise<void>;
 

@@ -2,21 +2,26 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Cellphone } from 'src/app/entities/Cellphone';
 import { Contact } from 'src/app/entities/Contact';
 import { Email } from 'src/app/entities/Email';
-import { IRepositoryContact } from 'src/app/repositories/contact.repository';
+import {
+  ContactResponse,
+  IRepositoryContact,
+} from 'src/app/repositories/contact.repository';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class PrismaRepositoryContact implements IRepositoryContact {
   constructor(private readonly prisma: PrismaService) {}
   async saveContact(contact: Contact): Promise<void> {
-    console.log(contact.cellphone);
-    if (await this.verifyCellphoneHasAlreadyBeenInserted(contact.cellphone)) {
+    const { cellphone, createdAt, email, id, name } = contact;
+    if (
+      await this.verifyCellphoneHasAlreadyBeenInserted(new Cellphone(cellphone))
+    ) {
       throw new HttpException(
         'Contact Cellphone already has been inserted in database',
         HttpStatus.BAD_REQUEST,
       );
     }
-    if (await this.verifyEmailHasAlreadyBeenInserted(contact.email)) {
+    if (await this.verifyEmailHasAlreadyBeenInserted(new Email(email))) {
       throw new HttpException(
         `Contact Email already has been inserted in database`,
         HttpStatus.BAD_REQUEST,
@@ -24,11 +29,11 @@ export class PrismaRepositoryContact implements IRepositoryContact {
     }
     await this.prisma.contact.create({
       data: {
-        cellphone: contact.cellphone.value,
-        email: contact.email.value,
-        name: contact.name,
-        createdAt: contact.createdAt,
-        idContact: contact.id,
+        cellphone,
+        email,
+        name,
+        createdAt,
+        idContact: id,
       },
     });
   }
@@ -48,13 +53,22 @@ export class PrismaRepositoryContact implements IRepositoryContact {
       })) !== null
     );
   }
-  listContacts(): Promise<Contact[]> {
+  async listContacts(): Promise<ContactResponse[]> {
+    return (await await this.prisma.contact.findMany({})).map(
+      ({ cellphone, createdAt, email, idContact, name }) =>
+        new ContactResponse({
+          cellphone,
+          createdAt,
+          email,
+          id: idContact,
+          name,
+        }),
+    );
+  }
+  findContactByEmail(email: Email): Promise<ContactResponse> {
     throw new Error('Method not implemented.');
   }
-  findContactByEmail(email: Email): Promise<Contact> {
-    throw new Error('Method not implemented.');
-  }
-  findContactById(id: string): Promise<Contact> {
+  findContactById(id: string): Promise<ContactResponse> {
     throw new Error('Method not implemented.');
   }
   removeContact(id: string): Promise<void> {

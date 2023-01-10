@@ -8,9 +8,9 @@ import { VerifyEmailHasAlreadyBeenInserted } from './VerifyEmailAlreadyExists';
 const repository = new InMemoryContactRepository();
 repository.virtualContactsBase.push(
   new Contact({
-    name: new NameContact('Guilherme'),
-    email: new Email('guilhermedelfino25@gmail.com'),
-    cellphone: new Cellphone('11972595523'),
+    name: 'Guilherme',
+    email: 'guilhermedelfino25@gmail.com',
+    cellphone: '11972595523',
   }),
 );
 describe('Use Case: Verify if Contact Email already has been inserted in database', () => {

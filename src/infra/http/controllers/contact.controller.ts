@@ -1,22 +1,25 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { Cellphone } from 'src/app/entities/Cellphone';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Contact } from 'src/app/entities/Contact';
-import { NameContact } from 'src/app/entities/Contact/Name.entity';
-import { Email } from 'src/app/entities/Email';
+import { ContactResponse } from 'src/app/repositories/contact.repository';
 import { CreateContact } from 'src/app/useCases/CreateContact';
+import { ListContact } from 'src/app/useCases/ListContacts';
 import { ContactDTO } from '../dtos/Contact.dto';
 
 @Controller('contact')
 export class ContactController {
-  constructor(private createContactUseCase: CreateContact) {}
+  constructor(
+    private createContactUseCase: CreateContact,
+    private listContacts: ListContact,
+  ) {}
   @Post('save')
   async saveContact(@Body() body: ContactDTO): Promise<void> {
     const { cellphone, email, name } = body;
-    const contact = new Contact({
-      cellphone: new Cellphone(cellphone),
-      email: new Email(email),
-      name: new NameContact(name),
-    });
+    const contact = new Contact({ cellphone, email, name });
     return await this.createContactUseCase.execute(contact);
+  }
+
+  @Get('list')
+  async list(): Promise<ContactResponse[]> {
+    return await this.listContacts.execute();
   }
 }

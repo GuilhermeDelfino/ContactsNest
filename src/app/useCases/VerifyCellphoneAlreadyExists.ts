@@ -1,8 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import { Cellphone } from '../entities/Cellphone';
 import { IRepositoryContact } from '../repositories/contact.repository';
 
-@Injectable()
 export class VerifyCellphoneHasAlreadyBeenInserted {
   constructor(private readonly repository: IRepositoryContact) {}
 

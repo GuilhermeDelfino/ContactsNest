@@ -1,19 +1,19 @@
-import { Contact, PropsContact } from '.';
+import { Contact, ContactAttributes, PropsContact } from '.';
 import { Cellphone } from '../Cellphone';
 import { Email } from '../Email';
 import { NameContact as Name } from './Name.entity';
 
-const fullPropsCorrect: PropsContact = {
-  cellphone: new Cellphone('11972595523'),
+const fullPropsCorrect: ContactAttributes = {
+  cellphone: '11972595523',
   createdAt: new Date(),
-  email: new Email('guilhermedelfino25@gmail.com'),
-  name: new Name('Guilherme Delfino'),
-  _id: `new-id-fofo`,
+  email: 'guilhermedelfino25@gmail.com',
+  name: 'Guilherme Delfino',
+  id: `new-id-fofo`,
 };
-const fullRequiredPropsCorrect: PropsContact = {
-  cellphone: new Cellphone('11972595523'),
-  email: new Email('guilhermedelfino25@gmail.com'),
-  name: new Name('Guilherme Delfino'),
+const fullRequiredPropsCorrect: ContactAttributes = {
+  cellphone: '11972595523',
+  email: 'guilhermedelfino25@gmail.com',
+  name: 'Guilherme Delfino',
 };
 describe('Contact Tests', () => {
   it('Should be create a contact', () => {
@@ -24,15 +24,21 @@ describe('Contact Tests', () => {
   it(`should return all attributes`, () => {
     const fullyContact = new Contact(fullPropsCorrect);
     expect(fullyContact.cellphone).toBe(fullPropsCorrect.cellphone);
-    expect(fullyContact.email.value).toBe(
-      fullPropsCorrect.email.value.trim().toUpperCase(),
+    expect(fullyContact.email).toBe(
+      fullPropsCorrect.email.trim().toUpperCase(),
     );
-    expect(fullyContact.name).toBe(fullPropsCorrect.name.value);
+    expect(fullyContact.name).toBe(fullPropsCorrect.name);
     expect(fullyContact.createdAt).toBe(fullPropsCorrect.createdAt);
-    expect(fullyContact.id).toBe(fullPropsCorrect._id);
+    expect(fullyContact.id).toBe(fullPropsCorrect.id);
 
     const onlyRequiredContact = new Contact(fullRequiredPropsCorrect);
     expect(onlyRequiredContact.createdAt).toBeTruthy();
     expect(onlyRequiredContact.id).toBeTruthy();
+  });
+
+  it(`should be return mask of cellphone number`, () => {
+    const fullyContact = new Contact(fullPropsCorrect);
+
+    expect(fullyContact.getCellphoneMask()).toBe(`(11) 97259-5523`);
   });
 });
