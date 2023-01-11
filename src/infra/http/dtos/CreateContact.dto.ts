@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { NameContact } from 'src/app/entities/Contact/Name.entity';
 import { Email } from 'src/app/entities/Email';
-export class ContactDTO {
+export class CreateContactDTO {
   @IsNotEmpty()
   @IsString()
   @Length(NameContact.MIN_LENGTH, NameContact.MAX_LENGTH)

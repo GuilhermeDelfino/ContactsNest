@@ -2,15 +2,22 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Cellphone } from 'src/app/entities/Cellphone';
 import { Contact } from 'src/app/entities/Contact';
 import { Email } from 'src/app/entities/Email';
-import {
-  ContactResponse,
-  IRepositoryContact,
-} from 'src/app/repositories/contact.repository';
+import { IRepositoryContact } from 'src/app/repositories/contact.repository';
 import { PrismaService } from '../prisma.service';
-
+import { Contact as ContactPrisma } from '@prisma/client';
 @Injectable()
 export class PrismaRepositoryContact implements IRepositoryContact {
   constructor(private readonly prisma: PrismaService) {}
+  private prismaContactToEntity(contact: ContactPrisma) {
+    const { cellphone, createdAt, email, idContact, name } = contact;
+    return new Contact({
+      cellphone,
+      createdAt,
+      email,
+      name,
+      id: idContact,
+    });
+  }
   async saveContact(contact: Contact): Promise<void> {
     const { cellphone, createdAt, email, id, name } = contact;
     if (
@@ -53,23 +60,26 @@ export class PrismaRepositoryContact implements IRepositoryContact {
       })) !== null
     );
   }
-  async listContacts(): Promise<ContactResponse[]> {
+  async listContacts(): Promise<Contact[]> {
     return (await await this.prisma.contact.findMany({})).map(
-      ({ cellphone, createdAt, email, idContact, name }) =>
-        new ContactResponse({
-          cellphone,
-          createdAt,
-          email,
-          id: idContact,
-          name,
-        }),
+      this.prismaContactToEntity,
     );
   }
-  findContactByEmail(email: Email): Promise<ContactResponse> {
-    throw new Error('Method not implemented.');
+  async findContactByEmail(email: Email): Promise<Contact> {
+    const contact = await this.prisma.contact.findFirst({
+      where: { email: email.value },
+    });
+    if (!contact)
+      throw new HttpException('Contact not found', HttpStatus.NOT_FOUND);
+    return this.prismaContactToEntity(contact);
   }
-  findContactById(id: string): Promise<ContactResponse> {
-    throw new Error('Method not implemented.');
+  async findContactById(id: string): Promise<Contact> {
+    const contact = await this.prisma.contact.findFirst({
+      where: { idContact: id },
+    });
+    if (!contact)
+      throw new HttpException('Contact not found', HttpStatus.NOT_FOUND);
+    return this.prismaContactToEntity(contact);
   }
   removeContact(id: string): Promise<void> {
     throw new Error('Method not implemented.');

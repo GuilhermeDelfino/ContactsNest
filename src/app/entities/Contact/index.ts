@@ -13,10 +13,10 @@ export type ContactAttributes = {
 };
 
 export class Contact {
-  private props: ContactAttributes;
+  private data: ContactAttributes;
   constructor(props: Omit<ContactAttributes, 'maskCellphone'>) {
     const cellphone = new Cellphone(props.cellphone);
-    this.props = {
+    this.data = {
       cellphone: cellphone.value,
       email: new Email(props.email).value,
       name: new NameContact(props.name).value,
@@ -27,21 +27,21 @@ export class Contact {
   }
 
   public get name(): string {
-    return this.props.name;
+    return this.data.name;
   }
   public get cellphone(): string {
-    return this.props.cellphone;
+    return this.data.cellphone;
   }
   public getCellphoneMask(): string {
-    return this.props.maskCellphone;
+    return this.data.maskCellphone;
   }
   public get email(): string {
-    return this.props.email;
+    return this.data.email;
   }
   public get id(): string {
-    return this.props.id;
+    return this.data.id;
   }
   public get createdAt(): Date {
-    return this.props.createdAt;
+    return this.data.createdAt;
   }
 }
