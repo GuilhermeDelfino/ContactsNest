@@ -3,9 +3,9 @@ import { Contact } from '../entities/Contact';
 import { IRepositoryContact } from '../repositories/contact.repository';
 
 @Injectable()
-export class ListContact {
+export class FindContactById {
   constructor(private readonly repository: IRepositoryContact) {}
-  async execute(): Promise<Contact[]> {
-    return await this.repository.listContacts();
+  async execute(id: string): Promise<Contact> {
+    return await this.repository.findContactById(id);
   }
 }

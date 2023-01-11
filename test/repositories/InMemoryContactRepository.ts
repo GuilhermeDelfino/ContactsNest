@@ -1,10 +1,7 @@
 import { Cellphone } from '../../src/app/entities/Cellphone';
 import { Contact } from '../../src/app/entities/Contact';
 import { Email } from '../../src/app/entities/Email';
-import {
-  ContactResponse,
-  IRepositoryContact,
-} from '../../src/app/repositories/contact.repository';
+import { IRepositoryContact } from '../../src/app/repositories/contact.repository';
 
 export class InMemoryContactRepository implements IRepositoryContact {
   virtualContactsBase: Contact[] = [];
@@ -36,19 +33,26 @@ export class InMemoryContactRepository implements IRepositoryContact {
     });
     return false;
   }
-  async listContacts(): Promise<ContactResponse[]> {
-    return await this.virtualContactsBase.map((c) => new ContactResponse(c));
+  async listContacts(): Promise<Contact[]> {
+    return await this.virtualContactsBase;
   }
-  findContactByEmail(email: Email): Promise<ContactResponse> {
-    throw new Error('Method not implemented.');
+  async findContactByEmail(email: Email): Promise<Contact> {
+    return await this.virtualContactsBase.find(
+      (c) => c.email.trim().toUpperCase() === email.value,
+    );
   }
-  findContactById(id: string): Promise<ContactResponse> {
-    throw new Error('Method not implemented.');
+  async findContactById(id: string): Promise<Contact> {
+    return await this.virtualContactsBase.find((c) => c.id === id);
   }
-  removeContact(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async removeContact(id: string): Promise<void> {
+    const contact = await this.findContactById(id);
+    const index = this.virtualContactsBase.indexOf(contact);
+    if (index > -1) this.virtualContactsBase.splice(index, 1);
   }
-  updateContact(id: string, contact: Contact): Promise<void> {
-    throw new Error('Method not implemented.');
+  async updateContact(id: string, newContact: Contact): Promise<void> {
+    const contact = await this.findContactById(id);
+    const index = this.virtualContactsBase.indexOf(contact);
+
+    this.virtualContactsBase[index] = newContact;
   }
 }

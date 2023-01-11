@@ -1,7 +1,4 @@
-import { Contact, ContactAttributes, PropsContact } from '.';
-import { Cellphone } from '../Cellphone';
-import { Email } from '../Email';
-import { NameContact as Name } from './Name.entity';
+import { Contact, ContactAttributes } from '.';
 
 const fullPropsCorrect: ContactAttributes = {
   cellphone: '11972595523',
