@@ -7,6 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiSecurity } from '@nestjs/swagger';
 import { Contact } from 'src/app/entities/Contact';
 import { Email } from 'src/app/entities/Email';
 import {
@@ -18,7 +19,6 @@ import {
   UpdateContact,
 } from 'src/app/useCases';
 import { CreateContactDTO, DeleteContactDTO, UpdateContactDTO } from '../dtos';
-
 @Controller('contact')
 export class ContactController {
   constructor(
