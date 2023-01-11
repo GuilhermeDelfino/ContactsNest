@@ -6,7 +6,7 @@ import { IRepositoryContact } from '../repositories/contact.repository';
 export class UpdateContact {
   constructor(private readonly repository: IRepositoryContact) {}
 
-  async execute(id: string, newContact: Omit<Contact, 'id'>): Promise<void> {
+  async execute(id: string, newContact: Contact): Promise<void> {
     await this.repository.updateContact(id, newContact);
   }
 }

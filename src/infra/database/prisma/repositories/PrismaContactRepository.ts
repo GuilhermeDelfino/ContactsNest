@@ -81,10 +81,23 @@ export class PrismaRepositoryContact implements IRepositoryContact {
       throw new HttpException('Contact not found', HttpStatus.NOT_FOUND);
     return this.prismaContactToEntity(contact);
   }
-  removeContact(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async removeContact(id: string): Promise<void> {
+    const contact = await this.findContactById(id);
+    if (!contact)
+      throw new HttpException('Contact not found', HttpStatus.NOT_FOUND);
+    await this.prisma.contact.delete({ where: { idContact: id } });
   }
-  updateContact(id: string, contact: Contact): Promise<void> {
-    throw new Error('Method not implemented.');
+  async updateContact(id: string, contact: Contact): Promise<void> {
+    const { cellphone, name, email } = contact;
+    await this.prisma.contact.update({
+      data: {
+        cellphone,
+        name,
+        email,
+      },
+      where: {
+        idContact: id,
+      },
+    });
   }
 }

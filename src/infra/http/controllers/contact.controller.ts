@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Contact } from 'src/app/entities/Contact';
 import { Email } from 'src/app/entities/Email';
 import {
@@ -6,8 +14,10 @@ import {
   CreateContact,
   ListContact,
   FindContactByEmail,
+  RemoveContact,
+  UpdateContact,
 } from 'src/app/useCases';
-import { CreateContactDTO } from '../dtos/CreateContact.dto';
+import { CreateContactDTO, DeleteContactDTO, UpdateContactDTO } from '../dtos';
 
 @Controller('contact')
 export class ContactController {
@@ -16,6 +26,8 @@ export class ContactController {
     private listContacts: ListContact,
     private findByIdUseCase: FindContactById,
     private findByEmailUseCase: FindContactByEmail,
+    private removeContactUseCase: RemoveContact,
+    private updateContactUseCase: UpdateContact,
   ) {}
   @Post('save')
   async saveContact(@Body() body: CreateContactDTO): Promise<void> {
@@ -36,5 +48,23 @@ export class ContactController {
   @Get('findByEmail/:email')
   async findByEmail(@Param('email') email: string) {
     return await this.findByEmailUseCase.execute(new Email(email));
+  }
+
+  @Delete('remove')
+  async removeContact(@Body() body: DeleteContactDTO) {
+    await this.removeContactUseCase.execute(body.id);
+  }
+
+  @Put('update')
+  async updateContact(@Body() body: UpdateContactDTO) {
+    const { cellphone, email, id, name } = body;
+    await this.updateContactUseCase.execute(
+      id,
+      new Contact({
+        cellphone,
+        email,
+        name,
+      }),
+    );
   }
 }

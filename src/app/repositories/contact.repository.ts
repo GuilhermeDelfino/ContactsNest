@@ -15,8 +15,5 @@ export abstract class IRepositoryContact {
 
   abstract removeContact(id: string): Promise<void>;
 
-  abstract updateContact(
-    id: string,
-    newContact: Omit<Contact, 'id'>,
-  ): Promise<void>;
+  abstract updateContact(id: string, newContact: Contact): Promise<void>;
 }
